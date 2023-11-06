@@ -43,6 +43,8 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	// Read the observed XR from the request. Most functions use the observed XR
 	// to add desired managed resources.
 	xr, err := request.GetObservedCompositeResource(req)
+	f.log.Debug("Getting XR", "XR", xr)
+
 	if err != nil {
 
 		// If the function can't read the XR, the request is malformed. This
