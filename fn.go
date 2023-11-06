@@ -5,7 +5,6 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/errors"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
 
 	fnv1beta1 "github.com/crossplane/function-sdk-go/proto/v1beta1"
 	"github.com/crossplane/function-sdk-go/request"
@@ -43,6 +42,8 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	// Read the observed XR from the request. Most functions use the observed XR
 	// to add desired managed resources.
 	xr, err := request.GetObservedCompositeResource(req)
+	f.log.Debug("Getting XR", "XR", xr)
+
 	if err != nil {
 
 		// If the function can't read the XR, the request is malformed. This
