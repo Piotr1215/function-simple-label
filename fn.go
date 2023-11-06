@@ -63,5 +63,19 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	}
 
 	f.log.Debug("Found desired resources", "count", len(desired))
+
+	// Main logic of the function
+	// Create a label on all desired resources
+	// If the lable is missing it will be added with the value of label field
+	// If the label is present its value will be updated
+	for _, dr := range desired {
+		if _, ok := dr.Resource.GetLabels()["crossplane.io/test-label"]; ok {
+			continue
+		}
+
+		meta.AddLabels(dr.Resource, map[string]string{"crossplane.io/test-label": in.Label})
+	}
+	response.Normalf(rsp, "I was run with input %q", in.Label)
+	f.log.Info("I was run!", "input", in.Label)
 	return rsp, nil
 }
