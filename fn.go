@@ -83,6 +83,8 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 
 		meta.AddLabels(dr.Resource, map[string]string{"crossplane.io/test-label": in.Label})
 	}
+	response.Normalf(rsp, "I was run with input %q", in.Label)
+	f.log.Info("I was run!", "input", in.Label)
 
 	// Finally, save the updated desired composed resources to the response.
 	// It's important that the resource is added every time function is called
