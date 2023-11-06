@@ -77,5 +77,13 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	}
 	response.Normalf(rsp, "I was run with input %q", in.Label)
 	f.log.Info("I was run!", "input", in.Label)
+
+	// Finally, save the updated desired composed resources to the response.
+	// It's important that the resource is added every time function is called
+	// so other functions can use it and resoruces are not lost
+	if err := response.SetDesiredComposedResources(rsp, desired); err != nil {
+		response.Fatal(rsp, errors.Wrapf(err, "cannot set desired composed resources from %T", req))
+		return rsp, nil
+	}
 	return rsp, nil
 }
