@@ -10,7 +10,7 @@ import (
 	"github.com/crossplane/function-sdk-go/request"
 	"github.com/crossplane/function-sdk-go/response"
 
-	"github.com/crossplane/function-template-go/input/v1beta1"
+	"github.com/Piotr1215/function-simple-label/input/v1beta1"
 )
 
 // Function returns whatever response you ask it to.
@@ -27,13 +27,14 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 	rsp := response.To(req, response.DefaultTTL)
 
 	in := &v1beta1.Input{}
+	f.log.Debug("Getting input", "input", in)
 	if err := request.GetInput(req, in); err != nil {
 		response.Fatal(rsp, errors.Wrapf(err, "cannot get Function input from %T", req))
 		return rsp, nil
 	}
 
 	// TODO: Add your Function logic here!
-	response.Normalf(rsp, "I was run with input %q!", in.Example)
+	response.Normalf(rsp, "I was run with input %q!", in.Label)
 	f.log.Info("I was run!", "input", in.Example)
 
 	return rsp, nil
