@@ -53,6 +53,14 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 
 	}
 
+	// Create an updated logger with useful information about the XR.
+	// It will be used at the end to log what the function did.
+	log := f.log.WithValues(
+		"xr-version", xr.Resource.GetAPIVersion(),
+		"xr-kind", xr.Resource.GetKind(),
+		"xr-name", xr.Resource.GetName(),
+	)
+
 	// Get all desired composed resources from the request. The function will
 	// update this map of resources, then save it. This get, update, set pattern
 	// ensures the function keeps any resources added by other functions.
@@ -85,5 +93,10 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 		response.Fatal(rsp, errors.Wrapf(err, "cannot set desired composed resources from %T", req))
 		return rsp, nil
 	}
+
+	// Log what the function did. This will only appear in the function's pod
+	// logs. A function can use response.Normal and response.Warning to emit
+	// Kubernetes events associated with the XR it's operating on.
+	log.Info("Added labels to desired resources", "label", in.Label, "count", len(desired))
 	return rsp, nil
 }
