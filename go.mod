@@ -1,4 +1,4 @@
-module github.com/crossplane/function-template-go
+module github.com/Piotr1215/function-simple-label
 
 go 1.21
 
@@ -8,6 +8,7 @@ require (
 	github.com/alecthomas/kong v0.8.1
 	github.com/crossplane/crossplane-runtime v1.14.1
 	github.com/crossplane/function-sdk-go v0.1.0
+	github.com/crossplane/function-template-go v0.0.0-20231103045028-a3edeff0786a
 	github.com/google/go-cmp v0.6.0
 	google.golang.org/protobuf v1.31.0
 	k8s.io/apimachinery v0.28.3
