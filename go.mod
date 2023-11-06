@@ -1,4 +1,4 @@
-module github.com/crossplane/function-template-go
+module github.com/Piotr1215/function-simple-label
 
 go 1.21
 
