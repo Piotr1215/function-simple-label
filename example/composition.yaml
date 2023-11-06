@@ -8,10 +8,52 @@ spec:
     kind: XR
   mode: Pipeline
   pipeline:
-  - step: run-the-template
+  - step: patch-and-transform
+    functionRef:
+      name: function-patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      kind: Resources
+      resources:
+         - name: test-resource1
+           base:
+            apiVersion: nop.crossplane.io/v1alpha1
+            kind: NopResource
+            metadata:
+              labels:
+                security-setting: "true"
+            spec:
+              forProvider:
+                fields:
+                  arrayField:
+                  - stringField: "array"
+                conditionAfter:
+                - time: 5s
+                  conditionType: Ready
+                  conditionStatus: "True"
+         - name: test-resource2
+           base:
+            apiVersion: nop.crossplane.io/v1alpha1
+            kind: NopResource
+            metadata:
+              labels:
+                security-setting: "true"
+            spec:
+              forProvider:
+                fields:
+                  arrayField:
+                  - stringField: "array"
+                conditionAfter:
+                - time: 5s
+                  conditionType: Ready
+                  conditionStatus: "True"
+  - step: run-function-simple-label
     functionRef:
       name: function-simple-label
     input:
-      apiVersion: template.fn.crossplane.io/v1beta1
+      apiVersion: label.fn.crossplane.io/v1beta1
       kind: Input
-      label: "Hello world"
+      # This will became the value of label "crossplane.io/test.label"
+      # If the lable is missing it will be added with the value of label field
+      # If the label is present its value will be updated
+      label: "Hello world oh hai!"
