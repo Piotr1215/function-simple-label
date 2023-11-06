@@ -52,5 +52,16 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 		return rsp, nil
 
 	}
+
+	// Get all desired composed resources from the request. The function will
+	// update this map of resources, then save it. This get, update, set pattern
+	// ensures the function keeps any resources added by other functions.
+	desired, err := request.GetDesiredComposedResources(req)
+	if err != nil {
+		response.Fatal(rsp, errors.Wrapf(err, "cannot get desired composed resources from %T", req))
+		return rsp, nil
+	}
+
+	f.log.Debug("Found desired resources", "count", len(desired))
 	return rsp, nil
 }
