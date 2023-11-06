@@ -1,6 +1,7 @@
-# Replace this with your XR!
-apiVersion: example.crossplane.io/v1
-kind: XR
+apiVersion: nop.example.org/v1alpha1
+kind: XNopResource
 metadata:
-  name: example-xr
-spec: {}
+  name: test-resource
+spec:
+  env: dev
+  render: true
