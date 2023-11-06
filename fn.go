@@ -25,21 +25,55 @@ type Function struct {
 func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequest) (*fnv1beta1.RunFunctionResponse, error) {
 	f.log.Info("Running function", "tag", req.GetMeta().GetTag())
 
+	// Create a response to the request. This copies the desired state and
+	// pipeline context from the request to the response.
 	rsp := response.To(req, response.DefaultTTL)
 
+	// This input comes from the label folder in
+	// "github.com/Piotr1215/function-simple-label/label/v1beta1"
 	in := &v1beta1.Input{}
+
+	// Confirm we are getting input from the request
 	f.log.Debug("Getting input", "input", in)
 	if err := request.GetInput(req, in); err != nil {
 		response.Fatal(rsp, errors.Wrapf(err, "cannot get Function input from %T", req))
 		return rsp, nil
 	}
+
+	// Read the observed XR from the request. Most functions use the observed XR
+	// to add desired managed resources.
+	xr, err := request.GetObservedCompositeResource(req)
+	if err != nil {
+
+		// If the function can't read the XR, the request is malformed. This
+		// should never happen. The function returns a fatal result. This tells
+		// Crossplane to stop running functions and return an error.
+		response.Fatal(rsp, errors.Wrapf(err, "cannot get observed composite resource from %T", req))
+		return rsp, nil
+
+	}
+
+	// Create an updated logger with useful information about the XR.
+	// It will be used at the end to log what the function did.
+	log := f.log.WithValues(
+		"xr-version", xr.Resource.GetAPIVersion(),
+		"xr-kind", xr.Resource.GetKind(),
+		"xr-name", xr.Resource.GetName(),
+	)
+
+	// Get all desired composed resources from the request. The function will
+	// update this map of resources, then save it. This get, update, set pattern
+	// ensures the function keeps any resources added by other functions.
 	desired, err := request.GetDesiredComposedResources(req)
 	if err != nil {
 		response.Fatal(rsp, errors.Wrapf(err, "cannot get desired composed resources from %T", req))
 		return rsp, nil
 	}
+
 	f.log.Debug("Found desired resources", "count", len(desired))
-	// This will became the value of label "crossplane.io/test.label"
+
+	// Main logic of the function
+	// Create a label on all desired resources
 	// If the lable is missing it will be added with the value of label field
 	// If the label is present its value will be updated
 	for _, dr := range desired {
@@ -49,11 +83,18 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 
 		meta.AddLabels(dr.Resource, map[string]string{"crossplane.io/test-label": in.Label})
 	}
-	response.Normalf(rsp, "I was run with input %q!", in.Label)
-	f.log.Info("I was run!", "input", in.Label)
+
+	// Finally, save the updated desired composed resources to the response.
+	// It's important that the resource is added every time function is called
+	// so other functions can use it and resoruces are not lost
 	if err := response.SetDesiredComposedResources(rsp, desired); err != nil {
 		response.Fatal(rsp, errors.Wrapf(err, "cannot set desired composed resources from %T", req))
 		return rsp, nil
 	}
+
+	// Log what the function did. This will only appear in the function's pod
+	// logs. A function can use response.Normal and response.Warning to emit
+	// Kubernetes events associated with the XR it's operating on.
+	log.Info("Added labels to desired resources", "label", in.Label, "count", len(desired))
 	return rsp, nil
 }
