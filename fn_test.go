@@ -38,19 +38,22 @@ func TestRunFunction(t *testing.T) {
 				req: &fnv1beta1.RunFunctionRequest{
 					Meta: &fnv1beta1.RequestMeta{Tag: "hello"},
 					Input: resource.MustStructJSON(`{
-						"apiVersion": "template.fn.crossplane.io/v1beta1",
+						"apiVersion": "label.fn.crossplane.io/v1beta1",
 						"kind": "Input",
-						"example": "Hello, world"
+						"label": "Hello, world"
 					}`),
 				},
 			},
 			want: want{
 				rsp: &fnv1beta1.RunFunctionResponse{
 					Meta: &fnv1beta1.ResponseMeta{Tag: "hello", Ttl: durationpb.New(response.DefaultTTL)},
+					// The desired state is present in the response, but we don't care about it in the function,
+					// so just adding an empty desired state for the test.
+					Desired: &fnv1beta1.State{},
 					Results: []*fnv1beta1.Result{
 						{
 							Severity: fnv1beta1.Severity_SEVERITY_NORMAL,
-							Message:  "I was run with input \"Hello, world\"!",
+							Message:  `I was run with input "Hello, world"`,
 						},
 					},
 				},
