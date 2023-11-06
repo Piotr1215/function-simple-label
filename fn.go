@@ -40,6 +40,17 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 		return rsp, nil
 	}
 
+	// Read the observed XR from the request. Most functions use the observed XR
+	// to add desired managed resources.
+	xr, err := request.GetObservedCompositeResource(req)
+	if err != nil {
 
+		// If the function can't read the XR, the request is malformed. This
+		// should never happen. The function returns a fatal result. This tells
+		// Crossplane to stop running functions and return an error.
+		response.Fatal(rsp, errors.Wrapf(err, "cannot get observed composite resource from %T", req))
+		return rsp, nil
+
+	}
 	return rsp, nil
 }
