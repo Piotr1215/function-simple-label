@@ -5,7 +5,6 @@ import (
 
 	"github.com/crossplane/crossplane-runtime/pkg/errors"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
 
 	fnv1beta1 "github.com/crossplane/function-sdk-go/proto/v1beta1"
 	"github.com/crossplane/function-sdk-go/request"
@@ -32,7 +31,6 @@ func (f *Function) RunFunction(_ context.Context, req *fnv1beta1.RunFunctionRequ
 		response.Fatal(rsp, errors.Wrapf(err, "cannot get Function input from %T", req))
 		return rsp, nil
 	}
-
 
 	return rsp, nil
 }
