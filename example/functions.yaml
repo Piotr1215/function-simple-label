@@ -12,7 +12,7 @@ metadata:
   name: function-simple-label
 spec:
   # This is ignored when using the Development runtime.
-  package: index.docker.io/piotrzan/function-simple-label:v0.0.1
+  package: xpkg.upbound.io/piotr/function-simple-label:v0.0.1
   packagePullPolicy: Always
 ---
 apiVersion: pkg.crossplane.io/v1
