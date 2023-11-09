@@ -1,11 +1,11 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: function-simple-label
+  name: composition-function-simple-label
 spec:
   compositeTypeRef:
-    apiVersion: example.crossplane.io/v1
-    kind: XR
+    apiVersion: composition-functions.io/v1alpha1
+    kind: XFunctionTester
   mode: Pipeline
   pipeline:
   - step: patch-and-transform

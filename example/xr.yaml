@@ -1,5 +1,5 @@
-apiVersion: nop.example.org/v1alpha1
-kind: XNopResource
+apiVersion: composition-functions.io/v1alpha1
+kind: XFunctionTester
 metadata:
   name: test-resource
 spec:
