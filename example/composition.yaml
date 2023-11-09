@@ -56,4 +56,4 @@ spec:
       # This will became the value of label "crossplane.io/test.label"
       # If the lable is missing it will be added with the value of label field
       # If the label is present its value will be updated
-      label: "Hello world!"
+      label: "Hello world"
