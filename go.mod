@@ -10,7 +10,7 @@ require (
 	github.com/crossplane/function-sdk-go v0.1.0
 	github.com/crossplane/function-template-go v0.0.0-20231103045028-a3edeff0786a
 	github.com/google/go-cmp v0.6.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.33.0
 	k8s.io/apimachinery v0.28.3
 	sigs.k8s.io/controller-tools v0.13.0
 )
@@ -46,7 +46,6 @@ require (
 	github.com/spf13/afero v1.10.0 // indirect
 	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
 	golang.org/x/mod v0.13.0 // indirect
