@@ -2,7 +2,7 @@ module github.com/Piotr1215/function-simple-label
 
 go 1.23
 
-toolchain go1.23.2
+toolchain go1.23.3
 
 require (
 	github.com/alecthomas/kong v1.4.0
