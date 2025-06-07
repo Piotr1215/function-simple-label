@@ -119,6 +119,8 @@ github.com/crossplane/function-template-go v0.0.0-20240530233955-c09b73693ed3 h1
 github.com/crossplane/function-template-go v0.0.0-20240530233955-c09b73693ed3/go.mod h1:HrkD0ncifMa4XPWFXj0rOlTYyrWNcer++GBZr3HExSg=
 github.com/crossplane/function-template-go v0.0.0-20240920165624-09d365944eca h1:+6c3gnwt4PSCM28GOz+VbbsG9x/z7PjbV8lusM6A+zg=
 github.com/crossplane/function-template-go v0.0.0-20240920165624-09d365944eca/go.mod h1:xHWt9UToW7zC3YYZsGCuDlq0tW+6A9K8I1Zu1+zOqEI=
+github.com/crossplane/function-template-go v0.0.0-20250606213011-f19b8bfb61b5 h1:uCImhwwezKM5dYGX5nB1q/ch24DpARCYg8CvewR0/Z0=
+github.com/crossplane/function-template-go v0.0.0-20250606213011-f19b8bfb61b5/go.mod h1:W+0a7MOndPlON6NqdKmCbB5D9V3QCH/d4RBKezhfwrI=
 github.com/crossplane/upjet v0.11.0-rc.0.0.20231012093706-c4a76d2a7505 h1:eCmYgfRopVn6r8RM1Ra4XQAPwVsjTGfktBj2Dk7yy+Y=
 github.com/crossplane/upjet v0.11.0-rc.0.0.20231012093706-c4a76d2a7505/go.mod h1:Ov+eoYS2n0Zge/E50zm65meOTYbAHnU6jPt27fQrpbc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
